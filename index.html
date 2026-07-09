@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gym Log">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<title>Gym Log</title>
+<style>
+  :root {
+    --ink: #e8e6df;
+    --dim: #8a8a82;
+    --line: #3a3a35;
+    --bg-solid: #1a1a17;
+    --panel: #201f1b;
+    --chalk: #d6cdb8;
+    --accent: #c65d3b;
+    --good: #7a9b6e;
+    --warn: #c9a227;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-solid);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    min-height: 100vh;
+    padding: max(20px, env(safe-area-inset-top)) 16px calc(70px + env(safe-area-inset-bottom));
+  }
+  .wrap { max-width: 520px; margin: 0 auto; }
+
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .masthead h1 {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin: 0;
+    font-weight: 600;
+  }
+  .masthead .sub { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .tab {
+    flex: 1;
+    min-width: 70px;
+    text-align: center;
+    padding: 10px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .tab.active { color: var(--bg-solid); background: var(--chalk); border-color: var(--chalk); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 4px 0 10px;
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .checklist-item .box {
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 1px solid var(--dim);
+    border-radius: 3px;
+  }
+  .checklist-item.done { color: var(--dim); text-decoration: line-through; }
+  .checklist-item.done .box { background: var(--good); border-color: var(--good); }
+
+  .day-picker { display: flex; gap: 10px; margin-bottom: 20px; }
+  .day-btn {
+    flex: 1;
+    padding: 14px 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+  .day-btn .label { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; }
+  .day-btn.selected { border-color: var(--accent); background: #241c17; }
+
+  .exercise-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .exercise-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .exercise-name { font-size: 15px; font-weight: 600; }
+  .exercise-target { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .rest-note { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-bottom: 8px; }
+  .last-time { font-family: var(--mono); font-size: 11px; color: var(--good); margin-bottom: 10px; }
+
+  .set-row {
+    display: grid;
+    grid-template-columns: 22px 1fr 1fr 32px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .set-num { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: center; }
+  .set-row input {
+    background: #14130f;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    padding: 8px 6px;
+    font-family: var(--mono);
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+  }
+  .set-row input:focus { outline: none; border-color: var(--chalk); }
+  .set-check {
+    width: 28px; height: 28px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .set-check.done { background: var(--good); border-color: var(--good); color: #14130f; }
+  .field-labels {
+    display: grid;
+    grid-template-columns: 22px 1fr 1fr 32px;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .field-labels span:nth-child(2), .field-labels span:nth-child(3) { text-align: center; }
+
+  .set-adjust {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .set-adjust button {
+    flex: 1;
+    padding: 7px 0;
+    background: transparent;
+    border: 1px dashed var(--line);
+    border-radius: 3px;
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  .finish-bar { position: sticky; bottom: 12px; margin-top: 18px; }
+  .finish-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .finish-btn:disabled { background: #4a4038; color: #8a8a82; }
+
+  .empty { font-family: var(--mono); font-size: 12px; color: var(--dim); padding: 30px 0; text-align: center; }
+
+  .session-entry { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .session-date { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 6px; }
+  .session-ex { font-size: 13px; margin-bottom: 3px; }
+  .session-ex .n { color: var(--dim); }
+
+  .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .stat-row .ex-name { font-weight: 600; }
+  .stat-row .trend { font-family: var(--mono); font-size: 12px; color: var(--dim); }
+  .trend.up { color: var(--good); }
+
+  .toast {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--chalk);
+    color: var(--bg-solid);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 50;
+    max-width: 90%;
+    text-align: center;
+  }
+  .toast.show { opacity: 1; }
+
+  .rest-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--warn);
+    color: #14130f;
+    padding: 10px 16px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-weight: 700;
+    z-index: 100;
+  }
+  .rest-bar.show { display: flex; }
+  .rest-bar .time { font-size: 18px; }
+  .rest-bar button {
+    background: rgba(0,0,0,0.15);
+    border: none;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: #14130f;
+    cursor: pointer;
+  }
+
+  .settings-block { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 14px; margin-bottom: 12px; }
+  .settings-block h3 { margin: 0 0 8px; font-size: 13px; color: var(--chalk); }
+  .settings-block p { margin: 0 0 10px; font-size: 12px; color: var(--dim); line-height: 1.5; }
+  .settings-block textarea {
+    width: 100%;
+    height: 90px;
+    background: #14130f;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .settings-block .btn-row { display: flex; gap: 8px; }
+  .settings-block button {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--chalk);
+    border-radius: 3px;
+    color: var(--chalk);
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .settings-block button.danger { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="rest-bar" id="restBar">
+  <span>REST — <span class="time" id="restTime">1:30</span></span>
+  <button id="restSkip">Skip</button>
+</div>
+
+<div class="wrap">
+  <div class="masthead">
+    <h1>Gym Log</h1>
+    <div class="sub" id="dateNow"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="train">Train</button>
+    <button class="tab" data-tab="history">History</button>
+    <button class="tab" data-tab="progress">Progress</button>
+    <button class="tab" data-tab="settings">Data</button>
+  </div>
+
+  <!-- TRAIN VIEW -->
+  <div class="view active" id="view-train">
+
+    <div class="section-label">Warm-up</div>
+    <div id="warmupList"></div>
+
+    <div class="day-picker" id="dayPicker">
+      <button class="day-btn" data-day="A">
+        <div class="label">Day A</div>
+        Leg Press / Bench / Pulldown
+      </button>
+      <button class="day-btn" data-day="B">
+        <div class="label">Day B</div>
+        Squat-Deadlift / Row / DB Bench
+      </button>
+    </div>
+    <div id="exerciseList"></div>
+    <div class="finish-bar" id="finishBar" style="display:none;">
+      <button class="finish-btn" id="finishBtn">Finish &amp; Save Session</button>
+    </div>
+
+    <div class="section-label" style="margin-top:22px;">Cool-down</div>
+    <div id="cooldownList"></div>
+  </div>
+
+  <!-- HISTORY VIEW -->
+  <div class="view" id="view-history">
+    <div id="historyList"><div class="empty">No sessions logged yet.</div></div>
+  </div>
+
+  <!-- PROGRESS VIEW -->
+  <div class="view" id="view-progress">
+    <div id="progressList"><div class="empty">Log a few sessions to see trends.</div></div>
+  </div>
+
+  <!-- SETTINGS / BACKUP VIEW -->
+  <div class="view" id="view-settings">
+    <div class="settings-block">
+      <h3>Backup your data</h3>
+      <p>Your log is stored only in this browser on this device. Copy this text somewhere safe (Notes app, email to yourself) occasionally in case Safari ever clears site data.</p>
+      <textarea id="exportBox" readonly></textarea>
+      <div class="btn-row">
+        <button id="copyBtn">Copy to clipboard</button>
+      </div>
+    </div>
+    <div class="settings-block">
+      <h3>Restore from backup</h3>
+      <p>Paste a previously copied backup below to restore it. This replaces your current log.</p>
+      <textarea id="importBox" placeholder="Paste backup JSON here"></textarea>
+      <div class="btn-row">
+        <button id="importBtn" class="danger">Restore</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'gymlog_sessions_v1';
+
+const PLAN = {
+  A: [
+    { name: 'Leg Press', repRange: '8-10', start: 180, sets: 3, rest: 90 },
+    { name: 'Barbell Bench Press', repRange: '8-10', start: 85, sets: 3, rest: 90 },
+    { name: 'Lat Pulldown', repRange: '8-10', start: 90, sets: 3, rest: 90 },
+    { name: 'Dumbbell Romanian Deadlift', repRange: '10-12', start: 25, sets: 3, rest: 60 },
+    { name: 'Dumbbell Shoulder Press', repRange: '8-10', start: 20, sets: 3, rest: 60 },
+    { name: 'Bicycle Crunch', repRange: '12-15', start: 0, sets: 3, rest: 30 }
+  ],
+  B: [
+    { name: 'Back Squat / Deadlift', repRange: '8-10', start: 115, sets: 3, rest: 120 },
+    { name: 'Cable Row', repRange: '8-10', start: 65, sets: 3, rest: 90 },
+    { name: 'Dumbbell Bench Press', repRange: '8-10', start: 25, sets: 3, rest: 90 },
+    { name: 'Seated Leg Curl', repRange: '8-10', start: 120, sets: 3, rest: 60 },
+    { name: 'EZ-Bar Curl', repRange: '10-12', start: 40, sets: 3, rest: 45 },
+    { name: 'Superman / Crunches', repRange: '12-15', start: 0, sets: 3, rest: 30 }
+  ]
+};
+
+const WARMUP = [
+  '3 min easy cardio (bike, row, or incline walk)',
+  'Arm circles — 10 each direction',
+  'Leg swings — 10 each leg, each direction',
+  "Light warm-up set of today's first lift (~50% working weight, 8 reps)"
+];
+const COOLDOWN = [
+  'Hamstring stretch — 30 sec each side',
+  'Doorway chest stretch — 30 sec',
+  'Quad stretch — 30 sec each side',
+  "Child's pose — 30 sec",
+  '5 slow deep breaths'
+];
+
+let sessions = [];
+let currentDay = null;
+let currentData = {}; // exerciseName -> [{reps, weight}]
+let currentSetCounts = {}; // exerciseName -> number of sets this session
+let restTimerInterval = null;
+
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function showToast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+$('#dateNow').textContent = fmtDate(new Date());
+
+// ---------- Tabs ----------
+$$('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    $$('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    $$('.view').forEach(v => v.classList.remove('active'));
+    $('#view-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'history') renderHistory();
+    if (tab.dataset.tab === 'progress') renderProgress();
+    if (tab.dataset.tab === 'settings') $('#exportBox').value = JSON.stringify(sessions, null, 0);
+  });
+});
+
+// ---------- Warm-up / Cool-down checklists (session-only, not persisted) ----------
+function buildChecklist(containerId, items) {
+  const container = $(containerId);
+  container.innerHTML = '';
+  items.forEach((text) => {
+    const el = document.createElement('div');
+    el.className = 'checklist-item';
+    el.innerHTML = `<div class="box"></div><div class="txt">${text}</div>`;
+    el.addEventListener('click', () => el.classList.toggle('done'));
+    container.appendChild(el);
+  });
+}
+buildChecklist('#warmupList', WARMUP);
+buildChecklist('#cooldownList', COOLDOWN);
+
+// ---------- Day picker ----------
+$$('.day-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('.day-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    currentDay = btn.dataset.day;
+    buildExerciseList(currentDay);
+  });
+});
+
+function lastWeightFor(exName) {
+  for (let i = sessions.length - 1; i >= 0; i--) {
+    const ex = sessions[i].exercises.find(e => e.name === exName);
+    if (ex && ex.sets.length) {
+      const top = ex.sets[ex.sets.length - 1];
+      return { weight: top.weight, reps: top.reps, date: sessions[i].date };
+    }
+  }
+  return null;
+}
+
+function buildExerciseList(day) {
+  const container = $('#exerciseList');
+  container.innerHTML = '';
+  currentData = {};
+  currentSetCounts = {};
+
+  PLAN[day].forEach(ex => {
+    currentSetCounts[ex.name] = ex.sets;
+    currentData[ex.name] = Array.from({ length: ex.sets }, () => ({ reps: '', weight: '' }));
+    const last = lastWeightFor(ex.name);
+    const suggestedWeight = last ? last.weight : ex.start;
+
+    const card = document.createElement('div');
+    card.className = 'exercise-card';
+    card.dataset.exercise = ex.name;
+    card.innerHTML = `
+      <div class="exercise-head">
+        <div class="exercise-name">${ex.name}</div>
+        <div class="exercise-target">${ex.repRange} reps</div>
+      </div>
+      <div class="rest-note">Rest ~${ex.rest}s between sets</div>
+      ${last ? `<div class="last-time">Last: ${last.weight} lb × ${last.reps} (${fmtDate(last.date)})</div>` : `<div class="last-time" style="color:var(--dim)">Suggested start: ${ex.start} lb</div>`}
+      <div class="field-labels"><span></span><span>Reps</span><span>Weight (lb)</span><span></span></div>
+      <div class="sets-holder"></div>
+      <div class="set-adjust">
+        <button class="add-set">+ Add set</button>
+        <button class="remove-set">− Remove set</button>
+      </div>
+    `;
+    container.appendChild(card);
+    renderSetRows(card, ex, suggestedWeight);
+
+    card.querySelector('.add-set').addEventListener('click', () => {
+      currentSetCounts[ex.name]++;
+      currentData[ex.name].push({ reps: '', weight: '' });
+      renderSetRows(card, ex, suggestedWeight);
+    });
+    card.querySelector('.remove-set').addEventListener('click', () => {
+      if (currentSetCounts[ex.name] <= 1) return;
+      currentSetCounts[ex.name]--;
+      currentData[ex.name].pop();
+      renderSetRows(card, ex, suggestedWeight);
+    });
+  });
+  updateFinishBar();
+}
+
+function renderSetRows(card, ex, suggestedWeight) {
+  const holder = card.querySelector('.sets-holder');
+  holder.innerHTML = '';
+  const count = currentSetCounts[ex.name];
+  for (let i = 0; i < count; i++) {
+    const prior = currentData[ex.name][i] || { reps: '', weight: '' };
+    const row = document.createElement('div');
+    row.className = 'set-row';
+    row.innerHTML = `
+      <div class="set-num">${i + 1}</div>
+      <input type="number" inputmode="numeric" class="reps-input" placeholder="-" value="${prior.reps || ''}">
+      <input type="number" inputmode="numeric" class="weight-input" placeholder="${suggestedWeight || 0}" value="${prior.weight || ''}">
+      <button class="set-check ${prior.done ? 'done' : ''}">✓</button>
+    `;
+    const repsInput = row.querySelector('.reps-input');
+    const weightInput = row.querySelector('.weight-input');
+    const check = row.querySelector('.set-check');
+
+    check.addEventListener('click', () => {
+      const nowDone = check.classList.toggle('done');
+      currentData[ex.name][i] = {
+        reps: repsInput.value || '0',
+        weight: weightInput.value || String(suggestedWeight || 0),
+        done: nowDone
+      };
+      updateFinishBar();
+      if (nowDone) startRestTimer(ex.rest);
+    });
+    repsInput.addEventListener('input', () => { currentData[ex.name][i].reps = repsInput.value; });
+    weightInput.addEventListener('input', () => { currentData[ex.name][i].weight = weightInput.value; });
+    holder.appendChild(row);
+  }
+}
+
+function updateFinishBar() {
+  const anyChecked = document.querySelectorAll('.set-check.done').length > 0;
+  $('#finishBar').style.display = anyChecked ? 'block' : 'none';
+}
+
+// ---------- Rest timer ----------
+function beep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.value = 880;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.3);
+  } catch (e) { /* audio not available, ignore */ }
+}
+
+function startRestTimer(seconds) {
+  clearInterval(restTimerInterval);
+  let remaining = seconds;
+  const bar = $('#restBar');
+  const timeEl = $('#restTime');
+  bar.classList.add('show');
+  updateRestDisplay(remaining, timeEl);
+
+  restTimerInterval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(restTimerInterval);
+      bar.classList.remove('show');
+      beep();
+      return;
+    }
+    updateRestDisplay(remaining, timeEl);
+  }, 1000);
+}
+function updateRestDisplay(remaining, timeEl) {
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  timeEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+}
+$('#restSkip').addEventListener('click', () => {
+  clearInterval(restTimerInterval);
+  $('#restBar').classList.remove('show');
+});
+
+// ---------- Save / finish ----------
+$('#finishBtn').addEventListener('click', () => {
+  const exercises = [];
+  PLAN[currentDay].forEach(ex => {
+    const completedSets = currentData[ex.name].filter(s => s.done);
+    if (completedSets.length) {
+      exercises.push({
+        name: ex.name,
+        sets: completedSets.map(s => ({ reps: Number(s.reps), weight: Number(s.weight) }))
+      });
+    }
+  });
+  if (!exercises.length) { showToast('Nothing logged'); return; }
+
+  const session = { date: new Date().toISOString(), day: currentDay, exercises };
+  sessions.push(session);
+  const ok = saveSessions();
+
+  if (ok) {
+    showToast('Session saved');
+    $('#finishBar').style.display = 'none';
+    buildExerciseList(currentDay);
+  } else {
+    sessions.pop();
+    showToast('Save failed — check Settings > Data to back up manually');
+  }
+});
+
+function saveSessions() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    return true;
+  } catch (e) {
+    console.error('Save failed', e);
+    return false;
+  }
+}
+
+function loadSessions() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    sessions = raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    sessions = [];
+  }
+}
+
+// ---------- History ----------
+function renderHistory() {
+  const container = $('#historyList');
+  if (!sessions.length) {
+    container.innerHTML = '<div class="empty">No sessions logged yet.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  [...sessions].reverse().forEach(s => {
+    const entry = document.createElement('div');
+    entry.className = 'session-entry';
+    const exLines = s.exercises.map(ex => {
+      const setStr = ex.sets.map(st => `${st.weight}×${st.reps}`).join(', ');
+      return `<div class="session-ex"><span class="n">${ex.name}:</span> ${setStr}</div>`;
+    }).join('');
+    entry.innerHTML = `<div class="session-date">Day ${s.day} — ${fmtDate(s.date)}</div>${exLines}`;
+    container.appendChild(entry);
+  });
+}
+
+// ---------- Progress ----------
+function renderProgress() {
+  const container = $('#progressList');
+  const allNames = new Set();
+  Object.values(PLAN).flat().forEach(ex => allNames.add(ex.name));
+
+  const rows = [];
+  allNames.forEach(name => {
+    const history = [];
+    sessions.forEach(s => {
+      const ex = s.exercises.find(e => e.name === name);
+      if (ex && ex.sets.length) history.push(Math.max(...ex.sets.map(st => st.weight)));
+    });
+    if (history.length) {
+      const first = history[0];
+      const latest = history[history.length - 1];
+      rows.push({ name, latest, diff: latest - first, count: history.length });
+    }
+  });
+
+  if (!rows.length) {
+    container.innerHTML = '<div class="empty">Log a few sessions to see trends.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  rows.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'stat-row';
+    const trendClass = r.diff > 0 ? 'up' : '';
+    const trendSign = r.diff > 0 ? '+' : '';
+    row.innerHTML = `
+      <div class="ex-name">${r.name}</div>
+      <div class="trend ${trendClass}">${r.latest} lb (${trendSign}${r.diff} / ${r.count} sessions)</div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ---------- Backup / restore ----------
+$('#copyBtn').addEventListener('click', async () => {
+  const text = $('#exportBox').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('Copied to clipboard');
+  } catch (e) {
+    showToast('Copy failed — select the text manually');
+  }
+});
+$('#importBtn').addEventListener('click', () => {
+  const raw = $('#importBox').value.trim();
+  if (!raw) { showToast('Paste backup text first'); return; }
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) throw new Error('not an array');
+    sessions = parsed;
+    saveSessions();
+    showToast('Data restored');
+    $('#importBox').value = '';
+    $('#exportBox').value = JSON.stringify(sessions, null, 0);
+  } catch (e) {
+    showToast('Restore failed — check the pasted text');
+  }
+});
+
+// ---------- Init ----------
+loadSessions();
+$('.day-btn[data-day="A"]').click();
+
+// ---------- Offline caching ----------
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(e => console.log('SW registration failed', e));
+  });
+}
+</script>
+</body>
+</html>
