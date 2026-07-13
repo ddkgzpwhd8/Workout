@@ -383,20 +383,20 @@ const STORAGE_KEY = 'gymlog_sessions_v1';
 
 const PLAN = {
   A: [
-    { name: 'Leg Press', repRange: '8-10', start: 180, sets: 3, rest: 90 },
-    { name: 'Barbell Bench Press', repRange: '8-10', start: 85, sets: 3, rest: 90 },
-    { name: 'Lat Pulldown', repRange: '8-10', start: 90, sets: 3, rest: 90 },
-    { name: 'Dumbbell Romanian Deadlift', repRange: '10-12', start: 25, sets: 3, rest: 60 },
-    { name: 'Dumbbell Shoulder Press', repRange: '8-10', start: 20, sets: 3, rest: 60 },
-    { name: 'Bicycle Crunch', repRange: '12-15', start: 0, sets: 3, rest: 30 }
+    { name: 'Leg Press', repRange: '8-10', start: 180, sets: 3, rest: 90, increment: 10 },
+    { name: 'Barbell Bench Press', repRange: '8-10', start: 85, sets: 3, rest: 90, increment: 5 },
+    { name: 'Lat Pulldown', repRange: '8-10', start: 90, sets: 3, rest: 90, increment: 5 },
+    { name: 'Dumbbell Romanian Deadlift', repRange: '10-12', start: 25, sets: 3, rest: 60, increment: 5 },
+    { name: 'Dumbbell Shoulder Press', repRange: '8-10', start: 20, sets: 3, rest: 60, increment: 5 },
+    { name: 'Bicycle Crunch', repRange: '12-15', start: 0, sets: 3, rest: 30, increment: 0 }
   ],
   B: [
-    { name: 'Back Squat / Deadlift', repRange: '8-10', start: 115, sets: 3, rest: 120 },
-    { name: 'Cable Row', repRange: '8-10', start: 65, sets: 3, rest: 90 },
-    { name: 'Dumbbell Bench Press', repRange: '8-10', start: 25, sets: 3, rest: 90 },
-    { name: 'Seated Leg Curl', repRange: '8-10', start: 120, sets: 3, rest: 60 },
-    { name: 'EZ-Bar Curl', repRange: '10-12', start: 40, sets: 3, rest: 45 },
-    { name: 'Superman / Crunches', repRange: '12-15', start: 0, sets: 3, rest: 30 }
+    { name: 'Back Squat / Deadlift', repRange: '8-10', start: 115, sets: 3, rest: 120, increment: 10 },
+    { name: 'Cable Row', repRange: '8-10', start: 65, sets: 3, rest: 90, increment: 5 },
+    { name: 'Dumbbell Bench Press', repRange: '8-10', start: 25, sets: 3, rest: 90, increment: 5 },
+    { name: 'Seated Leg Curl', repRange: '8-10', start: 120, sets: 3, rest: 60, increment: 10 },
+    { name: 'EZ-Bar Curl', repRange: '10-12', start: 40, sets: 3, rest: 45, increment: 5 },
+    { name: 'Superman / Crunches', repRange: '12-15', start: 0, sets: 3, rest: 30, increment: 0 }
   ]
 };
 
@@ -474,15 +474,27 @@ $$('.day-btn').forEach(btn => {
   });
 });
 
-function lastWeightFor(exName) {
+function lastSessionFor(exName) {
   for (let i = sessions.length - 1; i >= 0; i--) {
     const ex = sessions[i].exercises.find(e => e.name === exName);
     if (ex && ex.sets.length) {
       const top = ex.sets[ex.sets.length - 1];
-      return { weight: top.weight, reps: top.reps, date: sessions[i].date };
+      return { sets: ex.sets, weight: top.weight, reps: top.reps, date: sessions[i].date };
     }
   }
   return null;
+}
+
+// Decide next suggested weight: if every set last time hit the top of the rep range,
+// bump up by the exercise's increment. Otherwise repeat the same weight.
+function suggestedWeightFor(ex, last) {
+  if (!last) return ex.start;
+  const repTop = Number(ex.repRange.split('-')[1]);
+  const hitTopEverySet = last.sets.every(s => s.reps >= repTop);
+  if (hitTopEverySet && ex.increment > 0) {
+    return last.weight + ex.increment;
+  }
+  return last.weight;
 }
 
 function buildExerciseList(day) {
@@ -494,8 +506,9 @@ function buildExerciseList(day) {
   PLAN[day].forEach(ex => {
     currentSetCounts[ex.name] = ex.sets;
     currentData[ex.name] = Array.from({ length: ex.sets }, () => ({ reps: '', weight: '' }));
-    const last = lastWeightFor(ex.name);
-    const suggestedWeight = last ? last.weight : ex.start;
+    const last = lastSessionFor(ex.name);
+    const suggestedWeight = suggestedWeightFor(ex, last);
+    const progressed = last && suggestedWeight > last.weight;
 
     const card = document.createElement('div');
     card.className = 'exercise-card';
@@ -506,7 +519,9 @@ function buildExerciseList(day) {
         <div class="exercise-target">${ex.repRange} reps</div>
       </div>
       <div class="rest-note">Rest ~${ex.rest}s between sets</div>
-      ${last ? `<div class="last-time">Last: ${last.weight} lb × ${last.reps} (${fmtDate(last.date)})</div>` : `<div class="last-time" style="color:var(--dim)">Suggested start: ${ex.start} lb</div>`}
+      ${last
+        ? `<div class="last-time">Last: ${last.weight} lb × ${last.reps} (${fmtDate(last.date)})${progressed ? ` — try ${suggestedWeight} lb today` : ''}</div>`
+        : `<div class="last-time" style="color:var(--dim)">Suggested start: ${ex.start} lb</div>`}
       <div class="field-labels"><span></span><span>Reps</span><span>Weight (lb)</span><span></span></div>
       <div class="sets-holder"></div>
       <div class="set-adjust">

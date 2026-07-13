@@ -1,6 +1,6 @@
 // Bump this version string every time you redeploy index.html.
 // Changing it forces the service worker to drop the old cache and fetch the new file.
-const CACHE_NAME = 'gymlog-cache-v1';
+const CACHE_NAME = 'gymlog-cache-v2';
 const FILES_TO_CACHE = ['./', './index.html'];
 
 self.addEventListener('install', (event) => {
